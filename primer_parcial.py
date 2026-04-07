@@ -104,7 +104,34 @@ while accion != 10:
                     cantidad = input(f"{i}: ").strip()
                 # Guardo la cantidad de acuerdo al indice y convierto a int 
                 existencias.append(int(cantidad))
-            break
+            # Vuelvo a solicitar elección de menu 
+            accion = input("""
+                Ingrese un número para elegir la actividad a realizar.
+                    1. Carga de herramientas.
+                    2. Carga de existencias.
+                    3. Visualizar el inventario.
+                    4. Consulta de stock por producto.
+                    5. Reporte de quiebre de stock.
+                    6. Alta de nuevo producto.
+                    7. Actualizacion de stock.
+                        Venta o compra.
+                    10. Para salir del programa. 
+                """).strip()
+                # Vuelvo a validar
+            while not accion.isdigit() and accion not in ["1", "2", "3", "4", "5", "6", "7", "10"]:
+                print("El valor ingresado es incorrecto. Por favor ingrese solamente un número del menú")
+                accion = input("""
+                    Ingrese un número para elegir la actividad a realizar.
+                        1. Carga de herramientas.
+                        2. Carga de existencias.
+                        3. Visualizar el inventario.
+                        4. Consulta de stock por producto.
+                        5. Reporte de quiebre de stock.
+                        6. Alta de nuevo producto.
+                        7. Actualizacion de stock.
+                            Venta o compra.
+                        10. Para salir del programa. 
+                    """).strip()
 
         case "3":
             pass
