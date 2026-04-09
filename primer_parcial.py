@@ -6,7 +6,7 @@ print("Bienvenido al sistema de control de stock Ferreteria 'El Cosito' ")
 # Declaración de variables
 
 herramientas = ["a", "b", "c"]
-existencias = [1, 0, 0]
+existencias = [1, 3, 30]
 
 # Comienza el programa mostrando el menu y solicitando seleccion de actividad a realizar
 
@@ -287,11 +287,209 @@ while accion != 10:
                         Venta o compra.
                     10. Para salir del programa. 
                 """).strip()
+
+            # Validacion de número del menú
+
+            while not accion.isdigit() and accion not in ["1", "2", "3", "4", "5", "6", "7", "10"]:
+                print("El valor ingresado es incorrecto. Por favor ingrese solamente un número del menú")
+                accion = input("""
+                    Ingrese un número para elegir la actividad a realizar.
+                        1. Carga de herramientas.
+                        2. Carga de existencias.
+                        3. Visualizar el inventario.
+                        4. Consulta de stock por producto.
+                        5. Reporte de quiebre de stock.
+                        6. Alta de nuevo producto.
+                        7. Actualizacion de stock.
+                            Venta o compra.
+                        10. Para salir del programa. 
+                    """).strip()
             
         case "7":
-            pass
+            # Actualizacion de Stock
+            operacion = input("""
+                Ingrese un número para vender o comprar.
+                    1. Ventas.
+                    2. Compras.
+                    3. Volver al menú principal.
+                """).strip()
+            # Valido el número para elegir comprar o vender
+            while not operacion.isdigit() or operacion not in ["1", "2", "3"]:
+                print("Valor incorrecto, ingrese solo número del 1 al 3")
+                operacion = input("""
+                Ingrese un número para vender o comprar.
+                    1. Ventas.
+                    2. Compras.
+                    3. Volver al menú principal.
+                """).strip()
+            while True:
+                match operacion:
+                    case "1":
+                        producto_a_vender = input("Ingrese el producto que quiere vender ").strip().lower()
+                        while producto_a_vender.isdigit():
+                            print("Valor incorrecto, debe ingresar solo letras.")
+                            producto_a_vender = input("Ingrese el producto que quiere vender ").strip().lower()
+
+                        
+                        if producto_a_vender in herramientas:
+                            indice = herramientas.index(producto_a_vender)
+                            print(indice)
+                            if existencias[indice] == 0:
+                                print(f"No hay unidades en existencia de {producto_a_vender}")
+                            else:
+                                print(f"Hay en existencia {existencias[indice]} unidades")
+                                cantidad_a_vender = input("Cuantas unidades quiere vender? ").strip()
+                                # Valido que ingrese número y que sea != de 0
+                                while not cantidad_a_vender.isdigit() or cantidad_a_vender == "0":
+                                    print("Valor incorrecto, ingrese solo números enteros mayores que 0")
+                                    cantidad_a_vender = input("Cuantas unidades quiere vender? ").strip()
+                                # Convierto a int para comparar con existencia
+                                cantidad_a_vender= int(cantidad_a_vender)     
+                                # Valido que no se venda mas de lo que hay
+                                print(type(existencias[indice]))
+                                while cantidad_a_vender > existencias[indice]:
+                                    print("Valor incorrecto, la cantidad a vender no puede superar la existencia")
+                                    cantidad_a_vender = input("Cuantas unidades quiere vender? ").strip()
+                                # Vuelvo a validar que haya ingresado número y != de 0
+                                    while not cantidad_a_vender.isdigit() or cantidad_a_vender == "0":
+                                        print("Valor incorrecto, ingrese solo números enteros mayores que 0")
+                                        cantidad_a_vender = input("Cuantas unidades quiere vender? ").strip()
+                                         # Vuelvo a convertir a int
+                                    cantidad_a_vender= int(cantidad_a_vender) 
+                                
+                                existencias[indice] = int(existencias[indice]) - cantidad_a_vender
+                                print("Venta exitosa!!")
+                        else:
+                            print("El producto a vender no está en la base de datos, por favor ingréselo primero en el ítem 6 del menú principal.")                            
+
+                        # Pido menú principal
+                        accion = input("""
+                            Ingrese un número para elegir la actividad a realizar.
+                                1. Carga de herramientas.
+                                2. Carga de existencias.
+                                3. Visualizar el inventario.
+                                4. Consulta de stock por producto.
+                                5. Reporte de quiebre de stock.
+                                6. Alta de nuevo producto.
+                                7. Actualizacion de stock.
+                                    Venta o compra.
+                                10. Para salir del programa. 
+                            """).strip()
+
+                        # Validacion de número del menú
+
+                        while not accion.isdigit() and accion not in ["1", "2", "3", "4", "5", "6", "7", "10"]:
+                            print("El valor ingresado es incorrecto. Por favor ingrese solamente un número del menú")
+                            accion = input("""
+                                Ingrese un número para elegir la actividad a realizar.
+                                    1. Carga de herramientas.
+                                    2. Carga de existencias.
+                                    3. Visualizar el inventario.
+                                    4. Consulta de stock por producto.
+                                    5. Reporte de quiebre de stock.
+                                    6. Alta de nuevo producto.
+                                    7. Actualizacion de stock.
+                                        Venta o compra.
+                                    10. Para salir del programa. 
+                                """).strip()
+                        break
+
+                            
+                    case "2":
+                        # Compras
+                        producto_comprado = input("Ingrese el producto a comprar. ").strip().lower()
+                        # Valido que el producto sean caracteres alfabeticos
+                        while not producto_comprado.isalpha():
+                            print("Valor incorrecto, ingrese solo letras")
+                            producto_comprado = input("Ingrese el producto a comprar. ").strip().lower()
+                        # Valido que el producto ya esté cargado
+                        if producto_comprado in herramientas:
+                            # Pido la cantidad y la valido
+                            cantidad_comprada = input("Ingrese la cantidad comprada ").strip()
+                            
+                            while not cantidad_comprada.isdigit() or cantidad_comprada == "0":
+                                print("Valor incorrecto, ingrese solo números")
+                                cantidad_comprada = input("Ingrese la cantidad comprada ").strip()
+                            cantidad_comprada = int(cantidad_comprada)
+                            # Busco en indice de la herramienta para actualizar la existencia
+                            indice = herramientas.index(producto_comprado)
+                            existencias[indice] = existencias[indice] + cantidad_comprada
+                            print("Compras guardadas exitosamente.") 
+                            # print(herramientas)
+                            # print(existencias)
+                        else:
+                            print("El producto comprado no está en la base de datos, por favor ingréselo en el item 6 del menú principal.")
+
+                        # Pido menú principal
+                        accion = input("""
+                            Ingrese un número para elegir la actividad a realizar.
+                                1. Carga de herramientas.
+                                2. Carga de existencias.
+                                3. Visualizar el inventario.
+                                4. Consulta de stock por producto.
+                                5. Reporte de quiebre de stock.
+                                6. Alta de nuevo producto.
+                                7. Actualizacion de stock.
+                                    Venta o compra.
+                                10. Para salir del programa. 
+                            """).strip()
+
+                        # Validacion de número del menú
+
+                        while not accion.isdigit() and accion not in ["1", "2", "3", "4", "5", "6", "7", "10"]:
+                            print("El valor ingresado es incorrecto. Por favor ingrese solamente un número del menú")
+                            accion = input("""
+                                Ingrese un número para elegir la actividad a realizar.
+                                    1. Carga de herramientas.
+                                    2. Carga de existencias.
+                                    3. Visualizar el inventario.
+                                    4. Consulta de stock por producto.
+                                    5. Reporte de quiebre de stock.
+                                    6. Alta de nuevo producto.
+                                    7. Actualizacion de stock.
+                                        Venta o compra.
+                                    10. Para salir del programa. 
+                                """).strip()
+                        break
+                                                        
+                    case "3":
+                        # Pido menú principal
+                        accion = input("""
+                            Ingrese un número para elegir la actividad a realizar.
+                                1. Carga de herramientas.
+                                2. Carga de existencias.
+                                3. Visualizar el inventario.
+                                4. Consulta de stock por producto.
+                                5. Reporte de quiebre de stock.
+                                6. Alta de nuevo producto.
+                                7. Actualizacion de stock.
+                                    Venta o compra.
+                                10. Para salir del programa. 
+                            """).strip()
+
+                        # Validacion de número del menú
+
+                        while not accion.isdigit() and accion not in ["1", "2", "3", "4", "5", "6", "7", "10"]:
+                            print("El valor ingresado es incorrecto. Por favor ingrese solamente un número del menú")
+                            accion = input("""
+                                Ingrese un número para elegir la actividad a realizar.
+                                    1. Carga de herramientas.
+                                    2. Carga de existencias.
+                                    3. Visualizar el inventario.
+                                    4. Consulta de stock por producto.
+                                    5. Reporte de quiebre de stock.
+                                    6. Alta de nuevo producto.
+                                    7. Actualizacion de stock.
+                                        Venta o compra.
+                                    10. Para salir del programa. 
+                                """).strip()
+                            break
+                        break
+                    
         case "10":
-            pass
+            print("Gracias por usar nuestro sistema, lo esperamos nuevamente cuando lo necesite.")
+            break
+
         
 
 
